@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows.Forms;
-using AForge.Math;
+using System.IO;
+using ProyectoPDI;
+using System.Drawing.Imaging;
+
 
 namespace PruebaWFA
 {
@@ -15,6 +14,19 @@ namespace PruebaWFA
     {
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
+        public Bitmap ImgOriginal = null;
+        public Bitmap ImgEditada = null;
+        Mensaje wMensaje;
+
+
+
+        public int[,] matrizSobel = { { 1, 2, 1 }, { 0, 0, 0 }, { -1, -2, -1 } };
+        public int[,] matrizBlur = { { 0, 2, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
+        public int[,] matrizPrewitt = { { 1, 1, 1 }, { 0, 0, 0 }, { -1, -1, -1 } };
+        public int[,] matrizEmboss = { { -2, -1, 0 }, { -1, 1, 1 }, { 0, 1, 2 } };
+        public int[,] matrizScharr = { { 3, 10, 3 }, { 0, 0, 0 }, { -3, -10, -3 } };
+
+        //0.2126*R + 0.7152*G + 0.0722*B
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -26,6 +38,7 @@ namespace PruebaWFA
         public EdicionImagen()
         {
             InitializeComponent();
+            wMensaje = new Mensaje();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -72,7 +85,10 @@ namespace PruebaWFA
             open.Filter = "Image Files(*.jpg;*.jpeg;*.png;*.bmp;)|*.jpg;*.jpeg;*.png;*.bmp;";
             if (open.ShowDialog() == DialogResult.OK)
             {
-                editorImagen.Image = new Bitmap(open.FileName);
+                ImgOriginal = new Bitmap(open.FileName);
+                ImgEditada = ImgOriginal;
+                editorImagen.Image = ImgOriginal;
+
 
                 setHistogramas(getHistogramaRed((Bitmap)editorImagen.Image), getHistogramaGreen((Bitmap)editorImagen.Image), getHistogramaBlue((Bitmap)editorImagen.Image));
             }
@@ -143,6 +159,137 @@ namespace PruebaWFA
             }
             return array;
 
+        }
+
+        private void btnOriginal_MouseCaptureChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnOriginal_Click(object sender, EventArgs e)
+        {
+            if (ImgOriginal != null)
+                editorImagen.Image = ImgOriginal;
+        }
+
+        private void btn_Editada_Click(object sender, EventArgs e)
+        {
+            if (ImgEditada != null)
+                editorImagen.Image = ImgEditada;
+        }
+
+        private void btnErosion_Click(object sender, EventArgs e)
+        {
+            if (ImgEditada != null || ImgOriginal != null)
+            {
+                Bitmap ImgAEditar = (Bitmap)editorImagen.Image;
+                Bitmap result = Algoritmos.applyErosion(ImgAEditar);
+
+                editorImagen.Image = result;
+                ImgEditada = result;
+                setHistogramas(getHistogramaRed((Bitmap)editorImagen.Image), getHistogramaGreen((Bitmap)editorImagen.Image), getHistogramaBlue((Bitmap)editorImagen.Image));
+                MessageBox.Show("Se ha Procesado la Imagen", "Imagen Procesada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Primero es necesario elegir una imagen", "No hay Imagen para Editar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnSobel_Click(object sender, EventArgs e)
+        {
+            if (ImgEditada != null || ImgOriginal != null)
+            {
+                Bitmap ImgAEditar = (Bitmap)editorImagen.Image;
+                Bitmap result = Algoritmos.applyFilterMatrix(ImgAEditar, matrizSobel);
+
+                editorImagen.Image = result;
+                ImgEditada = result;
+                setHistogramas(getHistogramaRed((Bitmap)editorImagen.Image), getHistogramaGreen((Bitmap)editorImagen.Image), getHistogramaBlue((Bitmap)editorImagen.Image));
+                MessageBox.Show("Se ha Procesado la Imagen", "Imagen Procesada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Primero es necesario elegir una imagen", "No hay Imagen para Editar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnPrewitt_Click(object sender, EventArgs e)
+        {
+            if (ImgEditada != null || ImgOriginal != null)
+            {
+                Bitmap ImgAEditar = (Bitmap)editorImagen.Image;
+                Bitmap result = Algoritmos.applyFilterMatrix(ImgAEditar, matrizPrewitt);
+
+                editorImagen.Image = result;
+                ImgEditada = result;
+                setHistogramas(getHistogramaRed((Bitmap)editorImagen.Image), getHistogramaGreen((Bitmap)editorImagen.Image), getHistogramaBlue((Bitmap)editorImagen.Image));
+                MessageBox.Show("Se ha Procesado la Imagen", "Imagen Procesada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Primero es necesario elegir una imagen", "No hay Imagen para Editar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnGlitch_Click(object sender, EventArgs e)
+        {
+            if (ImgEditada != null || ImgOriginal != null)
+            {
+                Bitmap ImgAEditar = (Bitmap)editorImagen.Image;
+                Bitmap result = Algoritmos.applyFilterMatrixColor(ImgAEditar, matrizScharr, 1);
+
+                editorImagen.Image = result;
+                ImgEditada = result;
+                setHistogramas(getHistogramaRed((Bitmap)editorImagen.Image), getHistogramaGreen((Bitmap)editorImagen.Image), getHistogramaBlue((Bitmap)editorImagen.Image));
+                MessageBox.Show("Se ha Procesado la Imagen", "Imagen Procesada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Primero es necesario elegir una imagen", "No hay Imagen para Editar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btnEmboss_Click(object sender, EventArgs e)
+        {
+            if (ImgEditada != null || ImgOriginal != null)
+            {
+                Bitmap ImgAEditar = (Bitmap)editorImagen.Image;
+                Bitmap result = Algoritmos.applyFilterMatrix(ImgAEditar, matrizEmboss);
+
+                editorImagen.Image = result;
+                ImgEditada = result;
+                setHistogramas(getHistogramaRed((Bitmap)editorImagen.Image), getHistogramaGreen((Bitmap)editorImagen.Image), getHistogramaBlue((Bitmap)editorImagen.Image));
+                MessageBox.Show("Se ha Procesado la Imagen", "Imagen Procesada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Primero es necesario elegir una imagen", "No hay Imagen para Editar", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        //Boton para el Tab de Video
+        private void btnCamaraTab_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            if (editorImagen.Image != null)
+            {
+                string directory = Environment.CurrentDirectory;
+                string path = Directory.GetParent(directory).Parent.Parent.Parent.FullName;
+                path = path + "\\Assets\\";
+
+                string NameFile = DateTime.UtcNow.Year.ToString() + DateTime.UtcNow.Month.ToString() + DateTime.UtcNow.Day.ToString() + DateTime.UtcNow.Millisecond.ToString();
+                path = path + NameFile + ".jpg";
+
+                Bitmap bm = (Bitmap)editorImagen.Image;
+                bm.Save(path, ImageFormat.Jpeg);
+
+                MessageBox.Show("Se ha Guardado la Imagen", "Imagen Guardada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ProyectoPDI": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

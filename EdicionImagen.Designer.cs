@@ -30,9 +30,8 @@ namespace PruebaWFA
         private void InitializeComponent()
         {
             this.Header = new System.Windows.Forms.Panel();
-            this.btnProcesar = new System.Windows.Forms.Button();
             this.btnManual = new System.Windows.Forms.Button();
-            this.btnCamaraTab = new System.Windows.Forms.Button();
+            this.btnVideoTab = new System.Windows.Forms.Button();
             this.btnEditTab = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.LeftMenu = new System.Windows.Forms.Panel();
@@ -44,6 +43,7 @@ namespace PruebaWFA
             this.btn_Salir = new System.Windows.Forms.Button();
             this.btnAddImage = new System.Windows.Forms.Button();
             this.Screen = new System.Windows.Forms.Panel();
+            this.btn_Editada = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -62,9 +62,8 @@ namespace PruebaWFA
             // Header
             // 
             this.Header.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(51)))), ((int)(((byte)(102)))));
-            this.Header.Controls.Add(this.btnProcesar);
             this.Header.Controls.Add(this.btnManual);
-            this.Header.Controls.Add(this.btnCamaraTab);
+            this.Header.Controls.Add(this.btnVideoTab);
             this.Header.Controls.Add(this.btnEditTab);
             this.Header.Controls.Add(this.panel2);
             this.Header.Location = new System.Drawing.Point(0, 0);
@@ -73,20 +72,6 @@ namespace PruebaWFA
             this.Header.TabIndex = 0;
             this.Header.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.Header.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
-            // 
-            // btnProcesar
-            // 
-            this.btnProcesar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(171)))), ((int)(((byte)(128)))));
-            this.btnProcesar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnProcesar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnProcesar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnProcesar.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnProcesar.Location = new System.Drawing.Point(1054, 17);
-            this.btnProcesar.Name = "btnProcesar";
-            this.btnProcesar.Size = new System.Drawing.Size(168, 32);
-            this.btnProcesar.TabIndex = 10;
-            this.btnProcesar.Text = "Procesar";
-            this.btnProcesar.UseVisualStyleBackColor = false;
             // 
             // btnManual
             // 
@@ -103,20 +88,21 @@ namespace PruebaWFA
             this.btnManual.UseVisualStyleBackColor = false;
             this.btnManual.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnManual_MouseDown);
             // 
-            // btnCamaraTab
+            // btnVideoTab
             // 
-            this.btnCamaraTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(172)))), ((int)(((byte)(255)))));
-            this.btnCamaraTab.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnCamaraTab.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCamaraTab.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCamaraTab.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnCamaraTab.Location = new System.Drawing.Point(225, 16);
-            this.btnCamaraTab.Name = "btnCamaraTab";
-            this.btnCamaraTab.Size = new System.Drawing.Size(168, 32);
-            this.btnCamaraTab.TabIndex = 8;
-            this.btnCamaraTab.Text = "Camara";
-            this.btnCamaraTab.UseVisualStyleBackColor = false;
-            this.btnCamaraTab.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnCamaraTab_MouseDown);
+            this.btnVideoTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(172)))), ((int)(((byte)(255)))));
+            this.btnVideoTab.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnVideoTab.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnVideoTab.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVideoTab.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnVideoTab.Location = new System.Drawing.Point(225, 16);
+            this.btnVideoTab.Name = "btnVideoTab";
+            this.btnVideoTab.Size = new System.Drawing.Size(168, 32);
+            this.btnVideoTab.TabIndex = 8;
+            this.btnVideoTab.Text = "Video";
+            this.btnVideoTab.UseVisualStyleBackColor = false;
+            this.btnVideoTab.Click += new System.EventHandler(this.btnCamaraTab_Click);
+            this.btnVideoTab.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnCamaraTab_MouseDown);
             // 
             // btnEditTab
             // 
@@ -170,6 +156,7 @@ namespace PruebaWFA
             this.btnEmboss.TabIndex = 17;
             this.btnEmboss.Text = "Emboss";
             this.btnEmboss.UseVisualStyleBackColor = false;
+            this.btnEmboss.Click += new System.EventHandler(this.btnEmboss_Click);
             // 
             // btnPrewitt
             // 
@@ -185,6 +172,7 @@ namespace PruebaWFA
             this.btnPrewitt.TabIndex = 16;
             this.btnPrewitt.Text = "Prewitt";
             this.btnPrewitt.UseVisualStyleBackColor = false;
+            this.btnPrewitt.Click += new System.EventHandler(this.btnPrewitt_Click);
             // 
             // btnGlitch
             // 
@@ -200,6 +188,7 @@ namespace PruebaWFA
             this.btnGlitch.TabIndex = 15;
             this.btnGlitch.Text = "Glitch";
             this.btnGlitch.UseVisualStyleBackColor = false;
+            this.btnGlitch.Click += new System.EventHandler(this.btnGlitch_Click);
             // 
             // btnSobel
             // 
@@ -215,6 +204,7 @@ namespace PruebaWFA
             this.btnSobel.TabIndex = 14;
             this.btnSobel.Text = "Sobel";
             this.btnSobel.UseVisualStyleBackColor = false;
+            this.btnSobel.Click += new System.EventHandler(this.btnSobel_Click);
             // 
             // btnErosion
             // 
@@ -230,6 +220,7 @@ namespace PruebaWFA
             this.btnErosion.TabIndex = 13;
             this.btnErosion.Text = "Erosion";
             this.btnErosion.UseVisualStyleBackColor = false;
+            this.btnErosion.Click += new System.EventHandler(this.btnErosion_Click);
             // 
             // btn_Salir
             // 
@@ -264,6 +255,7 @@ namespace PruebaWFA
             // Screen
             // 
             this.Screen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(35)))), ((int)(((byte)(65)))));
+            this.Screen.Controls.Add(this.btn_Editada);
             this.Screen.Controls.Add(this.label1);
             this.Screen.Controls.Add(this.label3);
             this.Screen.Controls.Add(this.label2);
@@ -277,6 +269,21 @@ namespace PruebaWFA
             this.Screen.Name = "Screen";
             this.Screen.Size = new System.Drawing.Size(1264, 688);
             this.Screen.TabIndex = 3;
+            // 
+            // btn_Editada
+            // 
+            this.btn_Editada.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(172)))), ((int)(((byte)(255)))));
+            this.btn_Editada.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btn_Editada.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btn_Editada.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Editada.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btn_Editada.Location = new System.Drawing.Point(432, 624);
+            this.btn_Editada.Name = "btn_Editada";
+            this.btn_Editada.Size = new System.Drawing.Size(168, 32);
+            this.btn_Editada.TabIndex = 13;
+            this.btn_Editada.Text = "Imagen Editada";
+            this.btn_Editada.UseVisualStyleBackColor = false;
+            this.btn_Editada.Click += new System.EventHandler(this.btn_Editada_Click);
             // 
             // label1
             // 
@@ -354,6 +361,7 @@ namespace PruebaWFA
             this.btnGuardar.TabIndex = 2;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = false;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnOriginal
             // 
@@ -368,6 +376,8 @@ namespace PruebaWFA
             this.btnOriginal.TabIndex = 4;
             this.btnOriginal.Text = "Imagen Original";
             this.btnOriginal.UseVisualStyleBackColor = false;
+            this.btnOriginal.Click += new System.EventHandler(this.btnOriginal_Click);
+            this.btnOriginal.MouseCaptureChanged += new System.EventHandler(this.btnOriginal_MouseCaptureChanged);
             // 
             // editorImagen
             // 
@@ -408,9 +418,8 @@ namespace PruebaWFA
         private System.Windows.Forms.Panel Screen;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.PictureBox editorImagen;
-        private System.Windows.Forms.Button btnProcesar;
         private System.Windows.Forms.Button btnManual;
-        private System.Windows.Forms.Button btnCamaraTab;
+        private System.Windows.Forms.Button btnVideoTab;
         private System.Windows.Forms.Button btnEditTab;
         private System.Windows.Forms.Button btn_Salir;
         private System.Windows.Forms.Button btnAddImage;
@@ -426,6 +435,7 @@ namespace PruebaWFA
         private System.Windows.Forms.Button btnGlitch;
         private System.Windows.Forms.Button btnSobel;
         private System.Windows.Forms.Button btnErosion;
+        private System.Windows.Forms.Button btn_Editada;
     }
 }
 
